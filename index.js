@@ -21,8 +21,10 @@ const questions = [
         name: "usage"
     },
     {
+        type: "list",
         message: "Enter the software license for this project",
-        name: "license"
+        name: "license",
+        choices: ["Apache License", "MIT License", "GPL v2", "GPL v3"]
     },
     {
         message: "Enter information about contributing to this project",
@@ -67,7 +69,7 @@ const buildReadme = () => {
             ${usage}
 
             ## License
-            ${license}
+            This project is licensed under the ${license}.
 
             ## Contributing
             ${contributing}
