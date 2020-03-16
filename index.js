@@ -1,26 +1,40 @@
 const fs = require("fs");
 const inquirer = require("inquirer");
 
+//const { name, description, installation, usage, license, contributing, tests, questions } = data;
+
 const questions = [
     {
-        message: "Enter your name",
+        message: "Enter the project name",
         name: "name"
     },
     {
-        message: "Enter your location",
-        name: "location"
+        message: "Enter a description for this project",
+        name: "description"
     },
     {
-        message: "Enter your bio",
-        name: "bio"
+        message: "Enter directions for installing this project",
+        name: "installation"
     },
     {
-        message: "Enter your LinkedIn URL",
-        name: "linkedin"
+        message: "Enter a usage guide for this project",
+        name: "usage"
     },
     {
-        message: "Enter your GitHub URL",
-        name: "github"
+        message: "Enter the software license for this project",
+        name: "license"
+    },
+    {
+        message: "Enter information about contributing to this project",
+        name: "contributing"
+    },
+    {
+        message: "Enter information about tests for this project",
+        name: "tests"
+    },
+    {
+        message: "Enter common questions and answers for this project",
+        name: "questions"
     }    
 ];
 
@@ -29,17 +43,40 @@ function writeToFile(fileName, data) {
 
 
 //prompt the user for information
-inquirer
+const buildReadme = () => {
+    inquirer
     .prompt(questions)
     .then(function(data) {
-        const { name, location, bio, linkedin, github } = data;
+        const { name, description, installation, usage, license, contributing, tests, questions } = data;
         const readmeText = `
-            <h1>${name}'s Awesome Page</h1>
-            <p>Hailing from ${location}, I like to ${bio}.</p>
-            <h2>LinkedIn: ${linkedin}</h2>
-            <h2>Github: ${github}</h2>
-        </body>
-        </html>
+            #${name}
+            ${description}
+            
+            ## Table of Contents
+            * Installation
+            * Usage
+            * License
+            * Contributing
+            * Tests
+            * Questions
+            
+            ## Installation
+            ${installation}
+
+            ## Usage
+            ${usage}
+
+            ## License
+            ${license}
+
+            ## Contributing
+            ${contributing}
+
+            ## Tests
+            ${tests}
+
+            ## Questions
+            ${questions}
         `
         fs.writeFile('READ.me', readmeText, function(err) {
             if (err) {
@@ -47,9 +84,10 @@ inquirer
             }
         });
     });    
+};
 
 function init() {
-
+    buildReadme();
 }
 
 init();
