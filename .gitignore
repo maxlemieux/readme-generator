@@ -1,2 +1,4 @@
 READ.me
 node_modules/
+.DS_Store
+token.js
