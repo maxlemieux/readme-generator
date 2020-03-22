@@ -1,5 +1,4 @@
-const api = require('./api.js');
-
+/* Generate Markdown for the readme file, using an object containing responses from inquirer.js and axios API data */
 function generateMarkdown(allData) {
     const { username, name, description, installation, usage, userLicense, contributing, tests } = allData.data;
     readmeText = `
