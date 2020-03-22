@@ -1,7 +1,6 @@
 const fs = require("fs");
 const inquirer = require("inquirer");
-
-//const { name, description, installation, usage, license, contributing, tests, questions } = data;
+const generateMarkdown = require('./utils/generateMarkdown.js');
 
 const questions = [
     {
@@ -41,7 +40,12 @@ const questions = [
 ];
 
 function writeToFile(fileName, data) {
-}
+    fs.writeFile(fileName, data, function(err) {
+        if (err) {
+          throw err;
+        };
+    });
+};
 
 
 //prompt the user for information
@@ -49,47 +53,13 @@ const buildReadme = () => {
     inquirer
     .prompt(questions)
     .then(function(data) {
-        const { name, description, installation, usage, license, contributing, tests, questions } = data;
-        const readmeText = `
-            #${name}
-            ${description}
-            
-            ## Table of Contents
-            * Installation
-            * Usage
-            * License
-            * Contributing
-            * Tests
-            * Questions
-            
-            ## Installation
-            ${installation}
-
-            ## Usage
-            ${usage}
-
-            ## License
-            This project is licensed under the ${license}.
-
-            ## Contributing
-            ${contributing}
-
-            ## Tests
-            ${tests}
-
-            ## Questions
-            ${questions}
-        `
-        fs.writeFile('READ.me', readmeText, function(err) {
-            if (err) {
-              throw err;
-            }
-        });
+        const readMeText = generateMarkdown(data);
+        writeToFile('READ.me', readMeText);
     });    
 };
 
 function init() {
     buildReadme();
-}
+};
 
 init();
