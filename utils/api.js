@@ -1,31 +1,24 @@
 const axios = require('axios');
 
 /* This module contains the authToken variable holding the OAuth2 key for Github */
-const token = require('./token.js');
+const authToken = require('./token.js');
 
 const config = {
   headers: {
-    Authorization: `token ${token.authToken}`,
+    Authorization: `token ${authToken}`,
   },
 };
 
 /* Call github api with Axios */
-async function asyncGetUser(username) {
+const api = async (data) => {
   try {
-    const data = await axios.get(
-      `https://api.github.com/users/${username}`, config
+    const apiData = await axios.get(
+      `https://api.github.com/users/${data.username}`, config
     );
-    console.log(data);
+    return {data, apiData};
   } catch (err) {
     console.log(err);
   };
-
 };
 
-const api = {
-  getUser(username) {
-    asyncGetUser(username);    
-  }
-};
-// api.getUser('maxlemieux');
 module.exports = api;

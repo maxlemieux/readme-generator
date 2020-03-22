@@ -1,6 +1,8 @@
-function generateMarkdown(data) {
-    const { name, description, installation, usage, userLicense, contributing, tests, questions } = data;
-    const readmeText = `
+const api = require('./api.js');
+
+function generateMarkdown(allData) {
+    const { username, name, description, installation, usage, userLicense, contributing, tests } = allData.data;
+    readmeText = `
         #${name}
         ${description}
         
@@ -30,9 +32,10 @@ function generateMarkdown(data) {
         ${tests}
 
         ## Questions
-        ${questions}
+        ![A picture of the author](${allData.apiData.data.avatar_url})
+        Questions? Contact the author via email at ${allData.apiData.data.email}.
     `
-  return readmeText;
+    return readmeText;
 };
 
 function badgeFunction(userLicense) {

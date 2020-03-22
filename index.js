@@ -1,8 +1,12 @@
 const fs = require("fs");
 const inquirer = require("inquirer");
 const generateMarkdown = require('./utils/generateMarkdown.js');
+const api = require('./utils/api.js');
 
 const questions = [
+    {   message: "Enter your GitHub username",
+        name: "username"
+    },
     {
         message: "Enter the project name",
         name: "name"
@@ -22,7 +26,7 @@ const questions = [
     {
         type: "list",
         message: "Enter the software license for this project",
-        name: "license",
+        name: "userLicense",
         choices: ["Apache License", "MIT License", "GPL v2", "GPL v3"]
     },
     {
@@ -32,11 +36,7 @@ const questions = [
     {
         message: "Enter information about tests for this project",
         name: "tests"
-    },
-    {
-        message: "Enter common questions and answers for this project",
-        name: "questions"
-    }    
+    }
 ];
 
 function writeToFile(fileName, data) {
@@ -52,8 +52,12 @@ function writeToFile(fileName, data) {
 const buildReadme = () => {
     inquirer
     .prompt(questions)
-    .then(function(data) {
-        const readMeText = generateMarkdown(data);
+    .then(data => api(data))
+    .then(allData => {
+        const readMeText = generateMarkdown(allData);
+        return readMeText;
+    })
+    .then(readMeText => {
         writeToFile('READ.me', readMeText);
     });    
 };
